@@ -38,9 +38,14 @@ stages {
         steps {
                 script {
                     if (fileExists ('/target/citizen.war')) {
-                            sh 'rm -rf /usr/local/tomcat9/webapps/citizen.war'
-                            sh 'rm -rf /usr/local/tomcat9/webapps/citizen'
-                            sh 'cp /target/citizen.war /usr/local/tomcat9/webapps/'
+                        dir('/usr/local/tomcat9/webapps/'){
+                             sh 'rm -rf citizen.war'
+                        }
+
+                        dir('/usr/local/tomcat9/webapps/citizen'){
+                                deleteDir()
+                        }
+                        sh 'cp /target/citizen.war /usr/local/tomcat9/webapps/'
                     } else {
                         sh 'mvn clean install -DskipTests'
 			dir('/usr/local/tomcat9/webapps/'){
