@@ -1,0 +1,15 @@
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/service/MessageServiceTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/controller/AuthRestControllerTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/MapMarkersRepositoryTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/NotificationRepositoryTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/controller/MapRestControllerTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/service/MapMarkerServiceTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/ImagesRepositoryTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/controller/UsersRestControllerTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/MessageRepositoryTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/IssueRepositoryTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/UsersRepositoryTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/service/NotificationServiceTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/service/UserServiceTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/RecoveryTokenRepositoryTest.java
+/root/docker/Geocitizen/src/test/java/com/softserveinc/geocitizen/repository/ConnectionRepositoryTest.java
