@@ -37,12 +37,12 @@ stages {
         }
         steps {
                 script {
-                    if (fileExists ('/target/citizen.war')) {
-                        
-
+                    if (fileExists ('target/citizen.war')) {
                         sh 'remove_citizen.sh'
+			sh 'cp target/citizen.war /usr/local/tomcat9/webapps/'
                     } else {
                         sh 'mvn clean install -DskipTests'
+			sh 'cp target/citizen.war /usr/local/tomcat9/webapps/'
 			sh 'remove_citizen.sh'
 
 
