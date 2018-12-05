@@ -43,8 +43,13 @@ stages {
                             sh 'cp /target/citizen.war /usr/local/tomcat9/webapps/'
                     } else {
                         sh 'mvn clean install -DskipTests'
-                        sh 'rm -rf /usr/local/tomcat9/webapps/citizen.war'
-                        sh 'rm -rf /usr/local/tomcat9/webapps/citizen'
+			dir('/usr/local/tomcat9/webapps/'){
+				 sh 'rm -rf citizen.war'
+			}
+                        
+                        dir('/usr/local/tomcat9/webapps/citizen'){
+				deleteDir()
+			}
                         sh 'cp /target/citizen.war /usr/local/tomcat9/webapps/'
 
 
