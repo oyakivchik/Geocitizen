@@ -39,13 +39,13 @@ stages {
 			
                 script {
 		    
-                    if (fileExists ('*/citizen.war')) {
-                       	sh '+x ./remove_citizen.sh'
+                    if (fileExists ('./target/citizen.war')) {
+                       	sh './remove_citizen.sh'
 			sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
                     } else {
                        	sh 'mvn clean install -DskipTests'
 			sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
-			sh '+x ./remove_citizen.sh'
+			sh './remove_citizen.sh'
 
 		    }
                 }
