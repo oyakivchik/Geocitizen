@@ -1,4 +1,4 @@
 #!/usr/bin/bash
-sudo rm -rf /usr/local/tomcat9/webapps/citizen.war
-sudo rm -rf /usr/local/tomcat9/webapps/citizen
+rm -rf /usr/local/tomcat9/webapps/citizen.war
+rm -rf /usr/local/tomcat9/webapps/citizen
 
