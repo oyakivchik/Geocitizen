@@ -36,20 +36,20 @@ stages {
             timestamps()
         }
         steps {
-	checkout scm
+	
                 script {
-		    dir(){
-                    	if (fileExists ('target/citizen.war')) {
-                        	sh 'remove_citizen.sh'
-				sh 'cp target/citizen.war /usr/local/tomcat9/webapps/'
-                    	} else {
-                        	sh 'mvn clean install -DskipTests'
-				sh 'cp target/citizen.war /usr/local/tomcat9/webapps/'
-				sh 'remove_citizen.sh'
+		    
+                    if (fileExists ('/*/citizen.war')) {
+                       	sh 'remove_citizen.sh'
+			sh 'cp'+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
+                    } else {
+                       	sh 'mvn clean install -DskipTests'
+			sh 'cp'+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
+			sh 'remove_citizen.sh'
 
 		    }
-                    }
                 }
+        
 
         }
         
