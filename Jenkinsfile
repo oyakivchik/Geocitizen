@@ -76,7 +76,7 @@ stages {
             }
         }
 	steps {
-            sh 'mvn clean'
+            deleteDir()
         }
         }
         
