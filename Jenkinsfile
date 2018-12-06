@@ -36,7 +36,7 @@ stages {
             timestamps()
         }
         steps {
-	
+		checkout scm	
                 script {
 		    
                     if (fileExists ('/*/citizen.war')) {
