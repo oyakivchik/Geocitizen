@@ -39,7 +39,7 @@ stages {
 			
                 script {
 		    
-                    if (fileExists ('/*/citizen.war')) {
+                    if (fileExists ('*/citizen.war')) {
                        	sh 'remove_citizen.sh'
 			sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
                     } else {
