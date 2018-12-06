@@ -72,7 +72,7 @@ stages {
     stage('Cleanup') {
         agent {
             node {
-                label 'MASTER'
+                label 'master'
             }
         }
 	steps {
