@@ -40,12 +40,12 @@ stages {
                 script {
 		    
                     if (fileExists ('*/citizen.war')) {
-                       	sh "${env.WORKSPACE}"+'/remove_citizen.sh'
+                       	sh '/root/docker/Geocitizen/remove_citizen.sh'
 			sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
                     } else {
                        	sh 'mvn clean install -DskipTests'
 			sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
-			sh "${env.WORKSPACE}"+'/remove_citizen.sh'
+			sh '/root/docker/Geocitizen/remove_citizen.sh'
 
 		    }
                 }
