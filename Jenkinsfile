@@ -20,7 +20,7 @@ pipeline {
 					timestamps()
 			}
 			steps{
-				sh 'sudo mvn clean install'
+				sh 'mvn clean install'
 			}
 		}
 
