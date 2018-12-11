@@ -16,7 +16,7 @@ pipeline {
 		}
 		stage('Build_With_Test'){
 			options {
-					retry(2)
+					retry(3)
 					timestamps()
 			}
 			steps{
