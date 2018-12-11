@@ -31,10 +31,10 @@ pipeline {
 					script {
 				
 						if (fileExists ('./target/citizen.war')) {
-							sh 'sudo cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
+							sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
 						} else {
 							sh 'mvn clean install -DskipTests'
-							sh 'sudo cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
+							sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/usr/local/tomcat9/webapps/'
 						}
 					}
 			}
