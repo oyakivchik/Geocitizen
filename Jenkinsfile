@@ -37,10 +37,10 @@ pipeline {
                                         script {
 
                                                 if (fileExists ('./target/citizen.war')) {
-                                                        sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'$CATALINA_HOME/webapps/'
+                                                        sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/opt/apache-tomcat-9.0.14/webapps/'
                                                 } else {
                                                         sh 'mvn clean install -DskipTests'
-                                                        sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'$CATALINA_HOME/webapps/'
+                                                        sh 'cp '+"${env.WORKSPACE}"+"/target/citizen.war "+'/opt/apache-tomcat-9.0.14/webapps/'
                                                 }
                                         }
                         }
