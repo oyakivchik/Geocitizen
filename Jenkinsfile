@@ -1,4 +1,7 @@
 pipeline {
+	environment {
+			CATALINA_HOME='/opt/apache-tomcat-9.0.14/webapps/'
+			}
         agent {
             node {
                 label 'master'
@@ -37,10 +40,9 @@ pipeline {
                                         script {
 
                                                 if (fileExists ('./target/citizen.war')) {
-                                                        sh 'echo ${CATALINA_HOME}'
 							sh "cp "+"${env.WORKSPACE}"+\
 							"/target/citizen.war "+\
-							"/opt/apache-tomcat-9.0.14/webapps/"
+							"$CATALINA_HOME"
                                                 } else {
 							sh 'echo $CATALINA_HOME'
                                                         sh "mvn clean install -DskipTests"
