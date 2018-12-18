@@ -44,9 +44,11 @@ pipeline {
 							"/target/citizen.war "+\
 							"$CATALINA_HOME"
                                                 } else {
-							sh 'echo $CATALINA_HOME'
+							
                                                         sh "mvn clean install -DskipTests"
-                                                        sh "cp "+"${env.WORKSPACE}"+"/target/citizen.war "+"/opt/apache-tomcat-9.0.14/webapps/"
+                                                        sh "cp "+"${env.WORKSPACE}"+\
+							"/target/citizen.war "+\
+							"$CATALINA_HOME"
                                                 }
                                         }
                         }
