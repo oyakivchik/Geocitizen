@@ -1,6 +1,6 @@
 pipeline {
 	environment {
-			CATALINA_HOME='/opt/tomcat/webapps/'
+			CATALINA_HOME='/opt/tomcat/webapps'
 			}
         agent {
             node {
