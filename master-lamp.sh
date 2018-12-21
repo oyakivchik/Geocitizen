@@ -63,7 +63,7 @@
 	sed -i 's/peer/md5/g' /etc/postgresql/11/main/pg_hba.conf
 	sudo -i PGPASSWORD=postgres -u postgres psql -d template1 -c "ALTER USER postgres WITH PASSWORD 'postgres';"
 	#echo -e "postgres" | sudo -i -u postgres psql -c 'createdb ss_demo_1;'
-	sudo PGPASSWORD=postgres -u postgres psql -c 'CREATE DATABASE "ss_demo_2";'
+	sudo PGPASSWORD=postgres -u postgres psql -c 'CREATE DATABASE "ss_demo_1";'
 	#sudo -u postgres psql -c 'grant all privileges on database ss_demo_1 to postgres;'
 	sudo PGPASSWORD=postgres -u postgres psql -c 'GRANT ALL PRIVILEGES ON DATABASE "ss_demo_1" to postgres;'
 	#sudo PGPASSWORD=postgres -u postgres psql -c 'GRANT ALL PRIVILEGES ON DATABASE "ss_demo_1" to postgres;'
