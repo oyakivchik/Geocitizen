@@ -19,10 +19,10 @@ pipeline {
                 }
                 stage('Build'){
                         steps{
-                                sh 'mvn -B -DskipTests clean package'
+                                sh 'mvn -B -DskipTests clean install'
                         }
                 }
-				stage('Test') {
+/*				stage('Test') {
 						steps {
 							sh 'mvn test'
 						}
@@ -31,7 +31,7 @@ pipeline {
 								junit 'target/surefire-reports/*.xml'
 							}
 						}
-				}
+				}*/
 
                 stage('Deliver') {
 
@@ -40,9 +40,9 @@ pipeline {
                                         script {
 
                                                 if (fileExists ('./target/citizen.war')) {
-							sh "cp "+"${env.WORKSPACE}"+\
+							sh "docker cp jenkins-58b96b566f-p62xq:"+"${env.WORKSPACE}"+\
 							"/target/citizen.war "+\
-							"$CATALINA_HOME"
+							"tomcat-pod-55968f9dbc-ng596:$CATALINA_HOME"
                                                 } else {
 							
                                                         sh "mvn clean install -DskipTests"
