@@ -14,11 +14,13 @@ pipeline {
           steps {
               checkout scm
               sh 'mvn -B -DskipTests clean install'
-              def testImage = docker.build("peteryanush/ita-maven-java-oracle:1.1", "./") 
+		script {
+              		def testImage = docker.build("peteryanush/ita-maven-java-oracle:1.1", "./") 
 
-              testImage.inside {
-               sh 'ls /opt/tomcat/webapps'
-              }            
+	              testImage.inside {
+        	       sh 'ls /opt/tomcat/webapps'
+              		}         
+		}   
         }
         }
     }
