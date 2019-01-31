@@ -1,4 +1,4 @@
 FROM jeanblanchard/tomcat:tomcat9-java8
-ADD target/citizen.war /opt/tomcat/webapps/
+COPY target/*.war /opt/tomcat/webapps/
 
 
