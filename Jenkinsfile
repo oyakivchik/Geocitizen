@@ -12,8 +12,8 @@ pipeline {
         }
         stage('master'){
           steps {
-          node {
-	      label 'maste node'
+          node (label='master node'){
+	     
               checkout scm
               sh 'mvn -B -DskipTests clean install'
 		script {
