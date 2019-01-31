@@ -1,15 +1,25 @@
 pipeline {
     agent none
     stages {
-        stage('Back-end') {
+        stage('slave') {
             agent {
                 docker { image 'peteryanush/ita-maven-java-oracle:1.0'}
             }
             steps {
-			    checkout scm
+	        checkout scm
                 sh 'mvn -B -DskipTests clean install'
             }
         }
+        stage('master'){
+          steps {
+              checkout scm
+              sh 'mvn -B -DskipTests clean install'
+              def testImage = docker.build("peteryanush/ita-maven-java-oracle:1.1", "./") 
 
+              testImage.inside {
+               sh 'ls /opt/tomcat/webapps'
+              }            
+        }
+        }
     }
 }
