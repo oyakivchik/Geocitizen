@@ -15,6 +15,7 @@ pipeline {
                        steps {
                        checkout scm
                        sh 'mvn -B -DskipTests clean install'
+		       sh "cp "+"${env.WORKSPACE}"+"/target/citizen.war "+"."
                        sh 'docker build -t peteryanush/ita-maven-java-oracle:latest .'
                        }
        }
