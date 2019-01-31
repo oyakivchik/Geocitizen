@@ -10,22 +10,22 @@ pipeline {
                 sh 'mvn -B -DskipTests clean install'
             }
         }
-        stage('master'){
-          steps {
-          node (label='master node'){
-	     
-              checkout scm
-
-              sh 'mvn -B -DskipTests clean install'
-		script {
-              		def testImage = docker.build("peteryanush/ita-maven-java-oracle:1.1", "./") 
-
-	              testImage.inside {
-        	       sh 'ls /opt/tomcat/webapps'
-              		}         
-		}   
+       stage('Docker Build') {
+                       agent any
+                       steps {
+                       checkout scm
+                       sh 'mvn -B -DskipTests clean install'
+                       sh 'docker build -t peteryanush/ita-maven-java-oracle:latest .'
+                       }
+       }
+       stage('Docker Push') {
+      			agent any
+      			steps {
+        		withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
+                        sh "docker login -u ${env.dockerUser} -p ${env.dockerPassword}"
+                        sh 'docker push peteryanush/ita-maven-java-oracle:latest'
         }
-        }
-        }
+      }
+    }
     }
 }
