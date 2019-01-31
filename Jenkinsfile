@@ -11,6 +11,7 @@ pipeline {
             }
         }
         stage('master'){
+          steps {
           node {
               checkout scm
               sh 'mvn -B -DskipTests clean install'
@@ -21,6 +22,7 @@ pipeline {
         	       sh 'ls /opt/tomcat/webapps'
               		}         
 		}   
+        }
         }
         }
     }
