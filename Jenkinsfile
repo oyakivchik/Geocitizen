@@ -68,7 +68,7 @@ pipeline {
                                         failure {
                                                 mail subject: "${currentBuild.fullDisplayName} FAILURE",
                                                 body: "${env.BUILD_URL}",
-                                                to: 'petiayanush@gmail.com, petiaianush@gmail.com'
+                                                to: 'petiayanush@gmail.com, petiaanush@gmail.com'
                                         }
                                         success {
                                                 mail subject: "${currentBuild.fullDisplayName} SUCCESS",
