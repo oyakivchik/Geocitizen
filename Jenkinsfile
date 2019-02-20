@@ -40,7 +40,7 @@ pipeline {
                 }
                 stage('Build'){
                         steps{
-                                sh 'mvn -B -DskipTests clean install'
+                             sh 'mvn -B -DskipTests clean install'
        }
                 }
 
@@ -51,9 +51,9 @@ pipeline {
                                         script {
 
                                                 if (fileExists ('./target/citizen.war')) {
-                                                        sh "docker cp jenkins-58b96b566f-p62xq:"+"${env.WORKSPACE}"+\
+                                                        sh "cp "+"${env.WORKSPACE}"+\
                                                         "/target/citizen.war "+\
-                                                        "tomcat-pod-55968f9dbc-ng596:$CATALINA_HOME"
+                                                        "$CATALINA_HOME"
                                                 } else {
 
                                                         sh "mvn clean install -DskipTests"
@@ -84,5 +84,5 @@ pipeline {
 
    }
 }
-}
+
 
