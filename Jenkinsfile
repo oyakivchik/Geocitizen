@@ -4,23 +4,14 @@ pipeline {
         docker { image 'peteryanush/ita-maven-java-oracle:1.0' }
     }
 
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean install'
-            }
-        }
+    environment {
+                CATALINA_HOME='/opt/tomcat/webapps'
     }
-
-
-        environment {
-                        CATALINA_HOME='/opt/tomcat/webapps'
-                        }
-        agent {
-            node {
-                label 'master'
-            }
-        }
+    agent {
+           node {
+              label 'master'
+          }
+    }
 
         stages {
                 stage('SCM'){
