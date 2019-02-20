@@ -10,7 +10,9 @@ pipeline {
                         checkout scm
 
                         }
+                }
     }
+    
     stages {
         stage('Build') {
             steps {
@@ -41,7 +43,7 @@ pipeline {
                 stage('Build'){
                         steps{
                              sh 'mvn -B -DskipTests clean install'
-       }
+                        }
                 }
 
                 stage('Deliver') {
@@ -63,6 +65,8 @@ pipeline {
                                                 }
                                         }
                         }
+                 }
+           }
 
                         post {
                                         failure {
@@ -80,9 +84,9 @@ pipeline {
                                                                                 }
                         }
 
-                }
+                
 
-   }
+   
 }
-}
-}
+
+
