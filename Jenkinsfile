@@ -1,9 +1,4 @@
 pipeline {
-
-    agent {
-        docker { image 'peteryanush/ita-maven-java-oracle:1.0' }
-    }
-
     environment {
                 CATALINA_HOME='/opt/tomcat/webapps'
     }
