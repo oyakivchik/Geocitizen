@@ -23,6 +23,13 @@ pipeline {
                         }
                 }
                 
+		 stage('Delivery'){
+                        steps{
+                             sh 'mvn deploy'
+                        }
+                }
+
+
                 stage('Docker Build') {
                        agent any
                        steps {
