@@ -40,7 +40,7 @@ export default {
           var user = JSON.parse(responseForChat.body).data[0];
           if(user.text == 'Accept' && user.userId == _this.dataUserId && user.issueId == _this.dataIssueId){
             clearTimeout(_this.timerId);
-            window.location.href = "#/chat/" + _this.dataIssueId + "/" + _this.dataUserId;
+            window.location.href = "/chat/" + _this.dataIssueId + "/" + _this.dataUserId;
           }
         });
       })
@@ -75,7 +75,7 @@ export default {
           _this.stompClient.disconnect();
           _this.socket._close();
 
-          window.location.href = "#/chat/" + _this.dataIssueId + "/" + _this.dataUserId;
+          window.location.href = "/chat/" + _this.dataIssueId + "/" + _this.dataUserId;
         }
         else{
           let _this = this;

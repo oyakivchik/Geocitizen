@@ -20,6 +20,7 @@ import Error403 from '@/components/page/403Page/403Page'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',

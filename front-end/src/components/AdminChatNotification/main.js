@@ -20,7 +20,7 @@ export default {
     answer: function (userId, issueId) {
       this.stompClient.send("/app/connect/accept", {},
         JSON.stringify({text: 'Accept', login: "", issueId: issueId, userId: userId, waiting: true}));
-      window.location.href = "#/adminChatPage/" + issueId + "/" + userId;
+      window.location.href = "/adminChatPage/" + issueId + "/" + userId;
     },
     markAsReaded: function (userId, issueId) {
       var _this = this;
