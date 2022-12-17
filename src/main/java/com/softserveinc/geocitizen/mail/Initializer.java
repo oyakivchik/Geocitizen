@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Initializer {
 
-	public Initializer(@Value("${front.url}") String frontUrl) {
+	public Initializer(@Value("${front-end.url}") String frontUrl) {
 		PasswordRecoveryEmailMessage.setFrontUrl(frontUrl);
 		SignUpEmailMessage.setFrontUrl(frontUrl);
 	}

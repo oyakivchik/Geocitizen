@@ -40,7 +40,7 @@ public class SocialConfig implements SocialConfigurer {
 	private String googleAppkey;
 	@Value("${google.appSecret}")
 	private String googleSecret;
-	@Value("${front.url}")
+	@Value("${front-end.url}")
 	private String frontUrl;
 
 	@Autowired

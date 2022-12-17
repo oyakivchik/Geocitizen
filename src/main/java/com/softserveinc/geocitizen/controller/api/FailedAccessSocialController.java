@@ -10,7 +10,7 @@ import java.io.IOException;
 @RestController
 public class FailedAccessSocialController {
 
-	@Value("${front.url}")
+	@Value("${front-end.url}")
 	private String frontUrl;
 
 	@GetMapping(value = "/signin", params = {"error"})
