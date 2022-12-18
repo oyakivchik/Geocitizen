@@ -35,7 +35,7 @@ jobs:
           find: "^\\s*ROOT_API:.*"
           replace: "  ROOT_API: '\"${{ secrets.ROOT_API }}\"'"
       - name: Build static content
-        run: cd front-end && npm run build
+        run: cd front-end && npm install && npm run build
       - name: Copy static content to S3
         uses: reggionick/s3-deploy@v3
         with:
