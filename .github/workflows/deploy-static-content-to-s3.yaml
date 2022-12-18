@@ -9,17 +9,9 @@ on:
       - "front-end/**"
 
 jobs:
-  staging-static-content-deployment:
-    if: github.ref_name == 'dev' 
+  static-content-building:
+    name: Build static content
     runs-on: ubuntu-latest
-    env:
-      STAGE_API: ${{ secrets.ROOT_API }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    environment:
-      name: staging
-      url: ${{ env.STAGE_API }}
-    concurrency: staging
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,10 +28,33 @@ jobs:
           replace: "  ROOT_API: '\"${{ secrets.ROOT_API }}\"'"
       - name: Build static content
         run: cd front-end && npm install && npm run build
-      - name: Copy static content to S3
-        uses: reggionick/s3-deploy@v3
+      - name: Upload static content to artifacts
+        uses: actions/upload-artifact@v3
         with:
-          folder: front-end/dist/
-          bucket: ${{ secrets.S3_BUCKET }}
-          bucket-region: ${{ secrets.BUCKET_REGION }}
-          delete-removed: true
+          name: dist
+          path: front-end/dist/
+    
+  staging-deployment:
+    name: Deploy to stage
+    needs: static-content-building
+    if: github.ref_name == 'dev'
+    env:
+      STAGE_API: ${{ secrets.ROOT_API }}
+    runs-on: ubuntu-latest
+    container:
+      image: amazon/aws-cli:2.9.8
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.BUCKET_REGION }}
+    environment:
+      name: staging
+      url: ${{ env.STAGE_API }}
+    concurrency: staging
+    steps:
+      - name: Download statis content from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+      - name: Upload statisc content to S3
+        run: aws s3 sync dist ${{ secrets.S3_BUCKET }} --delete
