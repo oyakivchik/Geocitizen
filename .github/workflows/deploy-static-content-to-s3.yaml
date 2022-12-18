@@ -10,15 +10,16 @@ on:
 
 jobs:
   staging-static-content-deployment:
-    if: github.ref_name == 'dev'
-    environment:
-      name: staging
-      url: ${{ secrets.ROOT_API }}
-    concurrency: staging
+    if: github.ref_name == 'dev' 
     runs-on: ubuntu-latest
     env:
+      STAGE_API: ${{ secrets.ROOT_API }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    environment:
+      name: staging
+      url: ${{ env.STAGE_API }}
+    concurrency: staging
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
