@@ -1,0 +1,44 @@
+name: Deploy Static Content to S3 Bucket
+run-name: ${{ github.actor }} is deploying new version of the site 🚀
+on: 
+  push:
+    branches:
+      - "dev"
+      - "master"
+    paths:
+      - "front-end/**"
+
+jobs:
+  staging-static-content-deployment:
+    if: github.ref_name == 'dev'
+    environment:
+      name: staging
+      url: ${{ secrets.ROOT_API }}
+    concurrency: staging
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 8
+      - name: Correcting ROOT_API value
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          regex: true
+          include: front-end/config/prod.env.js
+          find: "^\\s*ROOT_API:.*"
+          replace: "  ROOT_API: '\"${{ secrets.ROOT_API }}\"'"
+      - name: Build static content
+        run: cd front-end && npm run build
+      - name: Copy static content to S3
+        uses: reggionick/s3-deploy@v3
+        with:
+          folder: front-end/dist/
+          bucket: ${{ secrets.S3_BUCKET }}
+          bucket-region: ${{ secrets.BUCKET_REGION }}
+          delete-removed: true
