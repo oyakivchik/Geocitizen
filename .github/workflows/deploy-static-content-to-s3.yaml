@@ -7,6 +7,7 @@ on:
       - "master"
     paths:
       - "front-end/**"
+      - ".github/workflows/deploy-static-content-to-s3.yaml"
 
 jobs:
   static-content-building:
@@ -56,5 +57,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
+          path: /github/home/dist
       - name: Upload statisc content to S3
         run: aws s3 sync dist ${{ secrets.S3_BUCKET }} --delete
+        working-directory: /github/home/
