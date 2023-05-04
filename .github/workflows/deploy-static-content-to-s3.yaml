@@ -8,6 +8,7 @@ on:
     paths:
       - "front-end/**"
       - ".github/workflows/deploy-static-content-to-s3.yaml"
+      
 
 jobs:
   static-content-building:
