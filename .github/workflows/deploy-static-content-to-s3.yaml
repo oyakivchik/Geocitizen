@@ -61,3 +61,29 @@ jobs:
       - name: Upload statisc content to S3
         run: aws s3 sync dist ${{ secrets.S3_BUCKET }} --delete
         working-directory: /github/home/
+
+  production-deployment:
+    name: Deploy to production
+    needs: static-content-building
+    if: github.ref_name == 'master'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: production
+      url: ${{ vars.URL }}
+    concurrency: production
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Download static content from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+      - name: Upload static content to S3
+        run: aws s3 sync dist ${{ secrets.S3_BUCKET }} --delete
