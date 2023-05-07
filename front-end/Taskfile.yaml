@@ -1,0 +1,21 @@
+version: "3"
+
+tasks:
+  build-frontend:
+    cmds:
+      - npm run build
+
+  build-frontend-docker:
+    cmds:
+      - docker build -t "ghcr.io/oyakivchik/geo-frontend:{{.GIT_COMMIT}}" .
+    vars:
+      GIT_COMMIT:
+        sh: git log -n 1 --format=%h
+
+  publish-frontend-docker:
+    deps: ["build-frontend-docker"]
+    cmds:
+      - docker push "ghcr.io/oyakivchik/geo-frontend:{{.GIT_COMMIT}}"
+    vars:
+      GIT_COMMIT:
+        sh: git log -n 1 --format=%h
