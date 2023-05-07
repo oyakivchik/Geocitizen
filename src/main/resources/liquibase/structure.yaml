@@ -668,5 +668,5 @@ databaseChangeLog:
         columns:
         - column:
             name: blocking_expires_at
-            type: timestamp(29, 6)
+            type: TIMESTAMP(6) WITHOUT TIME ZONE
         tableName: users
