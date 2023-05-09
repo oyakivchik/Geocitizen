@@ -70,6 +70,8 @@ jobs:
       name: production
       url: ${{ vars.URL }}
     concurrency: production
+    env:
+      AWS_EC2_METADATA_DISABLED: ${{ vars.AWS_EC2_METADATA_DISABLED }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
