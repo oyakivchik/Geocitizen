@@ -49,6 +49,8 @@ jobs:
       name: staging
       url: ${{ vars.URL }}
     concurrency: staging
+    env:
+      AWS_EC2_METADATA_DISABLED: ${{ vars.AWS_EC2_METADATA_DISABLED }}
     steps:
       - name: Download statis content from artifacts
         uses: actions/download-artifact@v3
