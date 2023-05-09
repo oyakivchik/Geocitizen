@@ -5,9 +5,11 @@ on:
     branches:
       - "dev"
       - "master"
+      - "feature/*"
     paths:
       - "front-end/**"
       - ".github/workflows/deploy-static-content-to-s3.yaml"
+      
 
 jobs:
   static-content-building:
@@ -38,29 +40,23 @@ jobs:
   staging-deployment:
     name: Deploy to stage
     needs: static-content-building
-    if: github.ref_name == 'dev'
-    env:
-      STAGE_API: ${{ secrets.ROOT_API }}
+    if: github.ref_name == 'dev' || startsWith( github.ref_name, 'feature')
     runs-on: ubuntu-latest
-    container:
-      image: amazon/aws-cli:2.9.8
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.BUCKET_REGION }}
+    permissions:
+      id-token: write
+      contents: read
     environment:
       name: staging
-      url: ${{ env.STAGE_API }}
+      url: ${{ vars.URL }}
     concurrency: staging
     steps:
       - name: Download statis content from artifacts
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: /github/home/dist
-      - name: Upload statisc content to S3
+          path: dist
+      - name: Upload static content to S3
         run: aws s3 sync dist ${{ secrets.S3_BUCKET }} --delete
-        working-directory: /github/home/
 
   production-deployment:
     name: Deploy to production
