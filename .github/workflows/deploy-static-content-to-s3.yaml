@@ -1,0 +1,94 @@
+name: Deploy Static Content to S3 Bucket
+run-name: ${{ github.actor }} is deploying new version of the site 🚀
+on: 
+  push:
+    branches:
+      - "dev"
+      - "master"
+      - "feature/*"
+    paths:
+      - "front-end/**"
+      - ".github/workflows/deploy-static-content-to-s3.yaml"
+      
+
+jobs:
+  static-content-building:
+    name: Build static content
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 8
+      - name: Correcting ROOT_API value
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          regex: true
+          include: front-end/config/prod.env.js
+          find: "^\\s*ROOT_API:.*"
+          replace: "  ROOT_API: '\"${{ secrets.ROOT_API }}\"'"
+      - name: Build static content
+        run: cd front-end && npm install && npm run build
+      - name: Upload static content to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: front-end/dist/
+    
+  staging-deployment:
+    name: Deploy to stage
+    needs: static-content-building
+    if: github.ref_name == 'dev' || startsWith( github.ref_name, 'feature')
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: staging
+      url: ${{ vars.URL }}
+    concurrency: staging
+    env:
+      AWS_EC2_METADATA_DISABLED: ${{ vars.AWS_EC2_METADATA_DISABLED }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Download statis content from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+      - name: Upload static content to S3
+        run: aws s3 sync dist ${{ secrets.S3_BUCKET }} --delete
+
+  production-deployment:
+    name: Deploy to production
+    needs: static-content-building
+    if: github.ref_name == 'master'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: production
+      url: ${{ vars.URL }}
+    concurrency: production
+    env:
+      AWS_EC2_METADATA_DISABLED: ${{ vars.AWS_EC2_METADATA_DISABLED }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Download static content from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+      - name: Upload static content to S3
+        run: aws s3 sync dist ${{ secrets.S3_BUCKET }} --delete
