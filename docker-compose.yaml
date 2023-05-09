@@ -1,0 +1,33 @@
+version: "3.7"
+services:
+  geo-backend:
+    image: ghcr.io/oyakivchik/geo-backend:1.0.0
+    ports:
+      - "8080:8080"
+    networks:
+      - geo-network
+    depends_on:
+      - postgres
+  
+  geo-frontend:
+    image: ghcr.io/oyakivchik/geo-frontend:1.0.0
+    networks: 
+      - geo-network
+    ports:
+      - "80:80"
+    depends_on:
+      - geo-backend
+
+  postgres:
+    image: postgres:9-bullseye
+    networks:
+      - geo-network
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ss_demo_1
+
+networks: 
+  geo-network:

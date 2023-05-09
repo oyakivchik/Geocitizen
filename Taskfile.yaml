@@ -1,0 +1,31 @@
+version: "3"
+
+includes:
+  frontend: ./front-end/Taskfile.yaml
+
+tasks:
+  init-backend-config:
+    preconditions:
+      - ( test -f ~/.aws/config && test -f ~/.aws/credentials ) || ( test AWS_ACCESS_KEY_ID && test AWS_SECRET_ACCESS_KEY )
+    cmds:
+      - aws ssm get-parameter --name dev-nginx-unit-config --with-decryption | jq '.Parameter.Value| fromjson' | tee nginx-unit.json
+
+  build-backend:
+    cmds:
+      - mvn clean install
+
+  build-backend-docker:
+    deps: ["init-backend-config"]
+    cmds:
+      - docker build -t "ghcr.io/oyakivchik/geo-backend:{{.GIT_COMMIT}}" .
+    vars:
+      GIT_COMMIT:
+        sh: git log -n 1 --format=%h
+
+  publish-backend-docker:
+    deps: ["build-backend-docker", "init-backend-config"]
+    cmds:
+      - docker push "ghcr.io/oyakivchik/geo-backend:{{.GIT_COMMIT}}"
+    vars:
+      GIT_COMMIT:
+        sh: git log -n 1 --format=%h

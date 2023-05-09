@@ -1,4 +1,3 @@
 target/**
 .gradle
 .vagrant
-nginx-unit.json
